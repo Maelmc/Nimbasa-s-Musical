@@ -9,7 +9,7 @@
 	"badge_colour": "E9548E",
 	"badge_text_colour": "FFFFFF",
   "display_name": "Nimbasa's Musical",
-	"version": "1.0.0",
+	"version": "1.0.0-261108a",
 	"dependencies": [
 		"Pokermon (>=3.9.1-1016a)"
 	],
