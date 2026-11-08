@@ -32,20 +32,12 @@ NIMMU.blind_theme = function(blind_keys, theme_name, volume, has_intro, play_loo
           if G.GAME and G.GAME.blind and NIMMU.table_contains(blind_keys, G.GAME.blind.name) then
             if not NIMMU.start[theme_name] then
               NIMMU.start[theme_name] = G.TIMERS.REAL
-              return 2
-            else
-              local elapsed = G.TIMERS.REAL - NIMMU.start[theme_name]
-              if elapsed >= play_loop_after then
-                return false
-              else
-                return 2
-              end
+              return 3
             end
+            return 3
           end
-          NIMMU.start[theme_name] = nil
-        else
-          NIMMU.start[theme_name] = nil
         end
+        NIMMU.start[theme_name] = nil
       end,
       sync = false,
       pitch = 1,
@@ -61,7 +53,7 @@ NIMMU.blind_theme = function(blind_keys, theme_name, volume, has_intro, play_loo
             if NIMMU.start[theme_name] then
               local elapsed = G.TIMERS.REAL - NIMMU.start[theme_name]
               if elapsed >= play_loop_after then
-                return 2
+                return 4
               else
                 return false
               end
@@ -81,7 +73,7 @@ NIMMU.blind_theme = function(blind_keys, theme_name, volume, has_intro, play_loo
       path = blind_keys.."_loop_music.ogg",
       select_music_track = function()
         if NIMMU.config[theme_name] and G.GAME and G.GAME.blind and NIMMU.table_contains(blind_keys, G.GAME.blind.name) then
-          return 2
+          return 3
         end
       end,
       sync = false,
@@ -106,20 +98,35 @@ NIMMU.joker_theme = function(joker_keys, theme_name, volume, has_intro, play_loo
             if next(SMODS.find_card(v)) then
               if not NIMMU.start[theme_name] then
                 NIMMU.start[theme_name] = G.TIMERS.REAL
-                return 1
-              else
+              end
+              return 1
+            end
+          end
+        end
+        NIMMU.start[theme_name] = nil
+      end,
+      sync = false,
+      pitch = 1,
+      volume = volume or 0.8,
+    })
+
+    SMODS.Sound({
+      key = theme_name.."_loop_music",
+      path = theme_name.."_loop_music.ogg",
+      select_music_track = function()
+        if NIMMU.config[theme_name] then
+          for _, v in pairs(joker_keys) do
+            if next(SMODS.find_card(v)) then
+              if NIMMU.start[theme_name] then
                 local elapsed = G.TIMERS.REAL - NIMMU.start[theme_name]
                 if elapsed >= play_loop_after then
-                  return false
+                  return 2
                 else
-                  return 1
+                  return false
                 end
               end
             end
           end
-          NIMMU.start[theme_name] = nil
-        else
-          NIMMU.start[theme_name] = nil
         end
       end,
       sync = false,
@@ -136,7 +143,7 @@ NIMMU.joker_theme = function(joker_keys, theme_name, volume, has_intro, play_loo
         if NIMMU.config[theme_name] then
           for _, v in pairs(joker_keys) do
             if next(SMODS.find_card(v)) then
-              return 1
+              return 2
             end
           end
         end
